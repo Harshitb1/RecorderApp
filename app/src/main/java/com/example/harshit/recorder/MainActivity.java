@@ -1,10 +1,12 @@
 package com.example.harshit.recorder;
 
+import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import java.io.IOException;
 
@@ -18,6 +20,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mfilename= Environment.getExternalStorageDirectory().getAbsolutePath();
         mfilename+= "/record_audio.3gp";
+        View button = findViewById(R.id.stopButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,LauncherActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
