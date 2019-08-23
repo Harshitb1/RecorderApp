@@ -5,14 +5,15 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.google.firebase.storage.FirebaseStorage;
 
+import java.io.File;
 import java.io.IOException;
 
 import static com.example.harshit.recorder.LauncherActivity.CHANNEL_ID;
@@ -39,7 +40,7 @@ public class Recorder extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("recorder1","start command");
 
-        MainActivity.mStorageReference = FirebaseStorage.getInstance().getReference();
+//        mStorageReference = FirebaseStorage.getInstance().getReference();
         mfilename= Environment.getExternalStorageDirectory().getAbsolutePath();
         mfilename+= "/record_audio.mp3";
         startRecording();
@@ -71,7 +72,7 @@ public class Recorder extends Service {
         Log.d("recorder1","stop Recording");
 
         mRecorder = null;
-      //  uploadAudio();
+        uploadAudio();
     }
     private void startRecording() {
         mRecorder = new MediaRecorder();
@@ -90,5 +91,19 @@ public class Recorder extends Service {
         }
 
         mRecorder.start();
+    }
+    private void uploadAudio() {
+//        StorageReference filepath =  mStorageReference.child("Audio").child("record_audio.3gp");
+//
+//        Uri uri = Uri.fromFile(new File(mfilename));
+//
+//        filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//
+//            }
+//        });
+
+
     }
 }

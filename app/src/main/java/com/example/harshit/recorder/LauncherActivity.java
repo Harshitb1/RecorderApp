@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+
 public class LauncherActivity extends AppCompatActivity {
 
     public static final String CHANNEL_ID ="abc";
@@ -21,7 +22,10 @@ public class LauncherActivity extends AppCompatActivity {
         View button = findViewById(R.id.LauncherButton);
         View stop = findViewById(R.id.Stop);
         final Intent intent = new Intent(LauncherActivity.this,Recorder.class);
+        final Intent intent1 = new Intent(LauncherActivity.this,messageService.class);
+        final Intent intent2 = new Intent(LauncherActivity.this,MyService.class);
 
+//        AmazonS3 s3Client = new AmazonS3Client(new BasicSessionCredentials("AKIATJEQJKLYZH2JIAMM", "DF/Ct9pd+fFg7tvixs3hzA15qAf9mJPN9qDgIF1m"));
         Log.d("recorder1","oncreate Launcher");
         createNotificationChannel();
         button.setOnClickListener(new View.OnClickListener() {
@@ -29,6 +33,9 @@ public class LauncherActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d("recorder1","start service");
                 startService(intent);
+                startService(intent1);
+                startService(intent2);
+
 
             }
         });
@@ -37,6 +44,11 @@ public class LauncherActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d("recorder1","stop service");
                 stopService(intent);
+                stopService(intent1);
+                stopService(intent2
+
+
+                );
             }
         });
     }

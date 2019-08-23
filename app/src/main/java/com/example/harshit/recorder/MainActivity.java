@@ -10,11 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -22,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     static MediaRecorder mRecorder;
     static String mfilename;
-    static StorageReference mStorageReference;
+//    static StorageReference mStorageReference;
     ProgressDialog mProgressDialog;
 
     @Override
@@ -77,19 +72,19 @@ public class MainActivity extends AppCompatActivity {
         mRecorder.stop();
         mRecorder.release();
         mRecorder = null;
-        uploadAudio();
+//        uploadAudio();
     }
 
-    private void uploadAudio() {
-        StorageReference filepath =  mStorageReference.child("Audio").child("record_audio.3gp");
-
-        Uri uri = Uri.fromFile(new File(mfilename));
-
-        filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-            }
-        });
-    }
+//    private void uploadAudio() {
+//        StorageReference filepath =  mStorageReference.child("Audio").child("record_audio.3gp");
+//
+//        Uri uri = Uri.fromFile(new File(mfilename));
+//
+//        filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//
+//            }
+//        });
+//    }
 }
