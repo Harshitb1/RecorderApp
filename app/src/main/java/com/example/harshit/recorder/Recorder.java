@@ -2,16 +2,23 @@ package com.example.harshit.recorder;
 
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +29,8 @@ import static com.example.harshit.recorder.MainActivity.mfilename;
 
 public class Recorder extends Service {
 
+    StorageReference mStorageReference;
+    ProgressDialog mProgressDialog;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -32,6 +41,9 @@ public class Recorder extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        mStorageReference = FirebaseStorage.getInstance().getReference();
+
+        mProgressDialog = new ProgressDialog(this);
         Log.d("recorder1","Oncreate");
 
     }
@@ -40,7 +52,6 @@ public class Recorder extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("recorder1","start command");
 
-//        mStorageReference = FirebaseStorage.getInstance().getReference();
         mfilename= Environment.getExternalStorageDirectory().getAbsolutePath();
         mfilename+= "/record_audio.mp3";
         startRecording();
@@ -74,6 +85,7 @@ public class Recorder extends Service {
         mRecorder = null;
         uploadAudio();
     }
+
     private void startRecording() {
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -92,17 +104,25 @@ public class Recorder extends Service {
 
         mRecorder.start();
     }
+
+
     private void uploadAudio() {
-//        StorageReference filepath =  mStorageReference.child("Audio").child("record_audio.3gp");
-//
-//        Uri uri = Uri.fromFile(new File(mfilename));
-//
-//        filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//
-//            }
-//        });
+
+        mProgressDialog.setMessage("uploading...");
+
+//        mProgressDialog.show();
+
+        StorageReference filepath =  mStorageReference.child("Audio").child("record_audio.mp3");
+
+        Uri uri = Uri.fromFile(new File(mfilename));
+
+        filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                mProgressDialog.dismiss();
+                Toast.makeText(Recorder.this,"Uploaded Successfully",Toast.LENGTH_LONG).show();
+            }
+        });
 
 
     }
